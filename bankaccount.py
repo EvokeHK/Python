@@ -1,11 +1,8 @@
-accNo = 10020100
-accCount = 0
-
 # # Bank app using dictionary
 # # Main menu
 # # 1.account create
 # # 2.transaction
-# # 3.all accounts 
+# # 3.all accounts
 # # 4.exit
 # # Note. Account no should be automaticaly increment which must use as global variable start with 10020100
 # # 1.create account
@@ -26,8 +23,12 @@ accCount = 0
 # 3.show all account
 # Show all entry in account dictionary
 
+accDict = {}
+accNo = 10020100
+
 
 def main():
+    global accNo, accDict
     i = int(
         input(
             """MAIN MENU \n
@@ -35,13 +36,11 @@ def main():
                   2. Transaction\n
                   3. All Accounts\n
                   4. Exit\n"""
-            )
+        )
     )
     match i:
         case 1:
-            accCount += 1
             createaccount()
-            accNo = accNo + 1
         case 2:
             Transaction()
         case 3:
@@ -49,19 +48,44 @@ def main():
         case 4:
             exit()
 
+
 def createaccount():
-    username = input("Enter the username ")
-    amount = input("Enter the initial Amount ")
-    while (amount % 100 != 0 and amount > 1000):
-        amount = ("The initial amount should be multiple of 100 and more than 1000\n Enter the amount again")
-    
+    global accNo
+    global accDict
+    amount = int(input("Enter the initial Amount "))
+    while amount % 100 != 0 and amount > 1000:
+        amount = "The initial amount should be multiple of 100 and more than 1000\n Enter the amount again"
+    accDict.update({accNo: amount})
+    print("Account ", accNo, " Created")
+    accNo += 1
+    y = input("Do you want to go back to Main Menu (y/n)")
+    match y:
+        case "y":
+            main()
+        case "n":
+            exit()
+
 
 def Transaction():
-    i = int(input(""))
+    acc = int(input("Enter the account Number \n"))
+    if acc in accDict.keys():
+        x = int(input("Enter the amount to withdraw"))
+
 
 def account():
+    print("Account Details")
+    print(accDict.items())
+    y = input("Do you want to go back to Main Menu (y/n)")
+    match y:
+        case "y":
+            main()
+        case "n":
+            exit()
+
 
 def exit():
+    print("Visit Again!!")
+
 
 if __name__ == "__main__":
     main()
