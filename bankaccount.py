@@ -32,10 +32,11 @@ def main():
     i = int(
         input(
             """MAIN MENU \n
-                  1. Create Account\n
-                  2. Transaction\n
-                  3. All Accounts\n
-                  4. Exit\n"""
+                  1. Create Account
+                  2. Transaction
+                  3. Check Account Balance
+                  4. All Accounts
+                  5. Exit\n"""
         )
     )
     match i:
@@ -44,8 +45,10 @@ def main():
         case 2:
             Transaction()
         case 3:
-            account()
+            balance()
         case 4:
+            accounts()
+        case 5:
             exit()
 
 
@@ -54,8 +57,12 @@ def createaccount():
     global accDict
     username = input("Enter the User Name ")
     amount = int(input("Enter the initial Amount "))
-    while amount % 100 != 0 and amount > 1000:
-        amount = "The initial amount should be multiple of 100 and more than 1000\n Enter the amount again"
+    while (amount % 100 != 0) or (amount < 1000):
+        amount = int(
+            input(
+                "The initial amount should be multiple of 100 and more than 1000\n Enter the amount again \n"
+            )
+        )
     accDict.update({accNo: {"Username": username, "Amount": amount}})
     print("Account ", accNo, " Created")
     accNo += 1
@@ -75,7 +82,7 @@ def Transaction():
             input(
                 """MENU \n
                       1. Withdraw\n
-                      2. Deposit"""
+                      2. Deposit \n"""
             )
         )
         match x:
@@ -98,7 +105,7 @@ def Transaction():
             case 2:
                 z = int(input("Enter the amount to be deposited "))
                 if z % 100 == 0:
-                    accDict[acc]["Amount"] -= z
+                    accDict[acc]["Amount"] += z
                     print("Amount Deposited\n")
                     y = input("Do you want to go back to Main Menu (y/n)")
                     match y:
@@ -114,9 +121,10 @@ def Transaction():
         main()
 
 
-def account():
-    print("Account Details")
-    print(accDict.items())
+def accounts():
+    print("AccNo   UserName    Amount")
+    for x in accDict.keys():
+        print(x, accDict[x]["Username"], accDict[x]["Amount"])
     y = input("Do you want to go back to Main Menu (y/n)")
     match y:
         case "y":
@@ -127,6 +135,22 @@ def account():
 
 def exit():
     print("Visit Again!!")
+
+
+def balance():
+    x = int(input("Enter the account Number "))
+    if x in accDict.keys():
+        print("Username : ", accDict[x]["Username"])
+        print("Balance : ", accDict[x]["Amount"])
+        y = input("Do you want to go back to Main Menu (y/n)")
+        match y:
+            case "y":
+                main()
+            case "n":
+                exit()
+    else:
+        print("Account does not exist \n Returning to main menu \n")
+        main()
 
 
 if __name__ == "__main__":
