@@ -50,6 +50,9 @@ def main():
             accounts()
         case 5:
             exit()
+        case _:
+            print("Invalid .... Returning to MainMenu")
+            main()
 
 
 def createaccount():
